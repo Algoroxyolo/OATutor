@@ -84,12 +84,6 @@ function validateAndCorrectFormat(input) {
     return correctedInput;
 }
 
-function convertSwedishToUS(numberString) {
-    let noSpaces = numberString.replace(/\s/g, '');
-    let formattedNumber = noSpaces.replace(/(?<=\d),(?=\d)/g, '.');
-    return formattedNumber;
-}
-
 /**
  *
  * @param attempt
@@ -101,10 +95,6 @@ function convertSwedishToUS(numberString) {
  * @returns {[string, boolean | string, null | WrongAnswerReasons]}
  */
 function checkAnswer({ attempt, actual, answerType, precision = 5, variabilization = {}, questionText = ""}) {
-    if (localStorage.getItem('locale') == 'se') {
-        attempt = convertSwedishToUS(attempt)
-    }
-    
     let parsed = attempt.replace(/\s+/g, '');
     if (variabilization) {
         actual = actual.map((actualAns) => variabilize(actualAns, variabilization));

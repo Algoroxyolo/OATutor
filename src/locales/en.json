@@ -7,9 +7,7 @@
        "select": "Please select a",
        "course": "course",
        "lessonplan": "lesson plan",
-       "onlyselect": "Select",
-       "aresure": "Are you sure?",
-       "reset": "Progress Reset!"
+       "onlyselect": "Select"
     },
     "problem":
     {
@@ -30,17 +28,6 @@
     },
     "hintsystem": 
     {
-        "hint": "Hint ",
-        "answer": "Answer",
-        "answerIs": "The answer is "
-    },
-    "toast":
-    {
-        "correct": "Correct Answer!",
-        "incorrect": "Incorrect Answer!",
-        "simplify": "Please simplify!",
-        "cantProcess": "Our system could not process that answer",
-        "stepComplete": "Step Completed!",
-        "provideAnswer": "Please provide an answer."
+        "hint": "Hint "
     }
 }

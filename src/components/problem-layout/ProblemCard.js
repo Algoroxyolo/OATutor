@@ -29,7 +29,7 @@ import { stagingProp } from "../../util/addStagingProperty";
 import ErrorBoundary from "../ErrorBoundary";
 import {
     toastNotifyCompletion,
-    toastNotifyCorrectness, toastNotifyEmpty
+    toastNotifyCorrectness,
 } from "./ToastNotifyCorrectness";
 import { joinList } from "../../util/formListString";
 import axios from "axios";
@@ -41,8 +41,6 @@ class ProblemCard extends React.Component {
     constructor(props, context) {
         super(props);
         // console.log("problem lesson props:", props);
-
-        this.translate = props.translate
         this.step = props.step;
         this.index = props.index;
         this.giveStuFeedback = props.giveStuFeedback;
@@ -98,8 +96,8 @@ class ProblemCard extends React.Component {
             // Bottom out hints
             this.hints.push({
                 id: this.step.id + "-h" + (this.hints.length + 1),
-                title: this.translate('hintsystem.answer'),
-                text: this.translate('hintsystem.answerIs') + this.step.stepAnswer,
+                title: "Answer",
+                text: "The answer is " + this.step.stepAnswer,
                 type: "bottomOut",
                 dependencies: Array.from(Array(this.hints.length).keys()),
             });
@@ -116,8 +114,8 @@ class ProblemCard extends React.Component {
                             i +
                             "-s" +
                             (hint.subHints.length + 1),
-                        title: this.translate('hintsystem.answer'),
-                        text: this.translate('hintsystem.answerIs') + hint.hintAnswer[0],
+                        title: "Answer",
+                        text: "The answer is " + hint.hintAnswer[0],
                         type: "bottomOut",
                         dependencies: Array.from(
                             Array(hint.subHints.length).keys()
@@ -211,11 +209,6 @@ class ProblemCard extends React.Component {
         const { seed, problemVars, problemID, courseName, answerMade, lesson } =
             this.props;
 
-        if (inputVal == '') {
-            toastNotifyEmpty(this.translate)
-            return;
-        }
-
         const [parsed, correctAnswer, reason] = checkAnswer({
             attempt: inputVal,
             actual: stepAnswer,
@@ -229,6 +222,11 @@ class ProblemCard extends React.Component {
         });
 
         const isCorrect = !!correctAnswer;
+
+        if (!isCorrect) {
+            this.expandFirstIncorrect = true;
+            this.toggleHints('auto-expand');
+        }
 
         this.context.firebase.log(
             parsed,
@@ -250,9 +248,9 @@ class ProblemCard extends React.Component {
         );
 
         if (this.showCorrectness) {
-            toastNotifyCorrectness(isCorrect, reason, this.translate);
+            toastNotifyCorrectness(isCorrect, reason);
         } else {
-            toastNotifyCompletion(this.translate);
+            toastNotifyCompletion();
         }
 
         this.setState({
@@ -300,9 +298,7 @@ class ProblemCard extends React.Component {
                 }
             );
         }
-        if (this.giveDynamicHint) {
-            this.generateHintFromGPT();
-        }
+        this.generateHintFromGPT();
     };
 
     unlockHint = (hintNum, hintType) => {

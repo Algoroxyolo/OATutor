@@ -20,16 +20,6 @@ class LessonSelection extends React.Component {
 
     constructor(props, context) {
         super(props);
-        const { courseNum, setLanguage } = this.props;
-
-        if (courseNum == 6) {
-            setLanguage('se')
-        } 
-        
-        if (props.history.location.pathname == '/') {
-            const defaultLocale = localStorage.getItem('defaultLocale');
-            setLanguage(defaultLocale)
-        }
 
         this.user = context.user || {}
         this.isPrivileged = !!this.user.privileged
@@ -154,7 +144,7 @@ class LessonSelection extends React.Component {
                             {this.state.preparedRemoveProgress ?
                                 <Button className={classes.button} style={{ width: "100%" }} size="small"
                                     onClick={this.removeProgress}
-                                    disabled={this.state.removedProgress}>{this.state.removedProgress ? translate('lessonSelection.reset') : translate('lessonSelection.aresure')}</Button> :
+                                    disabled={this.state.removedProgress}>{this.state.removedProgress ? "Progress Reset!" : "Are you sure?"}</Button> :
                                 <Button className={classes.button} style={{ width: "100%" }} size="small"
                                     onClick={this.prepareRemoveProgress}
                                     disabled={this.state.preparedRemoveProgress}>{translate('lessonSelection.resetprogress')}</Button>}

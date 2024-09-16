@@ -1,8 +1,8 @@
 import React from "react";
 import { AppBar, Toolbar } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
-import ProblemWrapper from "@components/problem-layout/ProblemWrapper.js";
-import LessonSelectionWrapper from "@components/problem-layout/LessonSelectionWrapper.js";
+import Problem from "@components/problem-layout/Problem.js";
+import LessonSelection from "@components/problem-layout/LessonSelection.js";
 import { withRouter } from "react-router-dom";
 
 import {
@@ -89,14 +89,6 @@ class Platform extends React.Component {
                     );
                 }
             );
-
-            const { setLanguage } = this.props;
-            if (lesson.courseName == 'Matematik 4') {
-                setLanguage('se')
-            } else {
-                const defaultLocale = localStorage.getItem('defaultLocale');
-                setLanguage(defaultLocale)
-            }
         } else if (this.props.courseNum != null) {
             this.selectCourse(coursePlans[parseInt(this.props.courseNum)]);
         }
@@ -112,7 +104,6 @@ class Platform extends React.Component {
         this.onComponentUpdate(prevProps, prevState, snapshot);
     }
 
-    
     onComponentUpdate(prevProps, prevState, snapshot) {
         if (
             Boolean(this.state.currProblem?.id) &&
@@ -124,7 +115,7 @@ class Platform extends React.Component {
             this.context.problemID = "n/a";
         }
     }
-    
+
     async selectLesson(lesson, updateServer=true) {
         const context = this.context;
         console.debug("lesson: ", context)
@@ -474,7 +465,7 @@ class Platform extends React.Component {
                     </Toolbar>
                 </AppBar>
                 {this.state.status === "courseSelection" ? (
-                    <LessonSelectionWrapper
+                    <LessonSelection
                         selectLesson={this.selectLesson}
                         selectCourse={this.selectCourse}
                         history={this.props.history}
@@ -484,7 +475,7 @@ class Platform extends React.Component {
                     ""
                 )}
                 {this.state.status === "lessonSelection" ? (
-                    <LessonSelectionWrapper
+                    <LessonSelection
                         selectLesson={this.selectLesson}
                         removeProgress={this.props.removeProgress}
                         history={this.props.history}
@@ -498,7 +489,7 @@ class Platform extends React.Component {
                         componentName={"Problem"}
                         descriptor={"problem"}
                     >
-                        <ProblemWrapper
+                        <Problem
                             problem={this.state.currProblem}
                             problemComplete={this.problemComplete}
                             lesson={this.lesson}

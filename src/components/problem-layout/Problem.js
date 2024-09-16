@@ -3,7 +3,7 @@ import { withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
-import ProblemCardWrapper from "./ProblemCardWrapper";
+import ProblemCard from "./ProblemCard";
 import Grid from "@material-ui/core/Grid";
 import { animateScroll as scroll, Element, scroller } from "react-scroll";
 import update from "../../models/BKT/BKT-brain.js";
@@ -38,25 +38,18 @@ class Problem extends React.Component {
 
     constructor(props, context) {
         super(props);
-
-        const { setLanguage } = props;
-        if (props.lesson.courseName == "Matematik 4") {
-            setLanguage('se')
-        }
-
         this.bktParams = context.bktParams;
         this.heuristic = context.heuristic;
 
         const giveStuFeedback = this.props.lesson?.giveStuFeedback;
         const giveStuHints = this.props.lesson?.giveStuHints;
         const keepMCOrder = this.props.lesson?.keepMCOrder;
-        const giveHintOnIncorrect = this.props.lesson?.giveHintOnIncorrect;
         const keyboardType = this.props.lesson?.keyboardType;
         const doMasteryUpdate = this.props.lesson?.doMasteryUpdate;
         const unlockFirstHint = this.props.lesson?.unlockFirstHint;
         const giveStuBottomHint = this.props.lesson?.allowBottomHint;
 
-        this.giveHintOnIncorrect = giveHintOnIncorrect != null && giveHintOnIncorrect;
+        this.giveHintOnIncorrect = true;
         this.giveStuFeedback = giveStuFeedback == null || giveStuFeedback;
         this.keepMCOrder = keepMCOrder != null && keepMCOrder;
         this.keyboardType = keyboardType != null && keyboardType;
@@ -465,7 +458,7 @@ class Problem extends React.Component {
                                 name={idx.toString()}
                                 key={`${problem.id}-${step.id}`}
                             >
-                                <ProblemCardWrapper
+                                <ProblemCard
                                     problemID={problem.id}
                                     step={step}
                                     index={idx}

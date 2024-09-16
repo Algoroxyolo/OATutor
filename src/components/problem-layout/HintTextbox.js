@@ -11,17 +11,12 @@ import ProblemInput from "../problem-input/ProblemInput";
 import { stagingProp } from "../../util/addStagingProperty";
 import { toastNotifyCorrectness } from "./ToastNotifyCorrectness";
 import { joinList } from "../../util/formListString";
-import withTranslation from "../../util/withTranslation.js"
-import {
-    toastNotifyEmpty
-} from "./ToastNotifyCorrectness";
 
 class HintTextbox extends React.Component {
     static contextType = ThemeContext;
 
     constructor(props, context) {
         super(props);
-        this.translate = props.translate
         this.hint = props.hint;
         this.index = props.index;
         this.giveStuFeedback = props.giveStuFeedback
@@ -50,17 +45,11 @@ class HintTextbox extends React.Component {
             variabilization: chooseVariables(this.props.hintVars, this.props.seed),
             questionText: this.hint.text
         });
-
-        if (parsed == '') {
-            toastNotifyEmpty(this.translate)
-            return;
-        }
-        
         this.props.submitHint(parsed, this.hint, correctAnswer, this.props.hintNum);
 
         const isCorrect = !!correctAnswer
 
-        toastNotifyCorrectness(isCorrect, reason, this.translate);
+        toastNotifyCorrectness(isCorrect, reason);
 
         this.setState({
             isCorrect,
@@ -78,7 +67,6 @@ class HintTextbox extends React.Component {
     }
 
     render() {
-        const { translate } = this.props;
         const { classes, index, hintNum } = this.props;
         const { isCorrect } = this.state;
         const { debug, use_expanded_view } = this.context;
@@ -135,7 +123,7 @@ class HintTextbox extends React.Component {
                                         "data-selenium-target": `submit-button-${hintIndex}`
                                     })}
                             >
-                                {translate('problem.Submit')}
+                                Submit
                             </Button>
                         </center>
                     </Grid>
@@ -184,4 +172,4 @@ class HintTextbox extends React.Component {
     }
 }
 
-export default withStyles(styles)(withTranslation(HintTextbox));
+export default withStyles(styles)(HintTextbox);
